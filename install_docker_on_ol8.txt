@@ -1,0 +1,43 @@
+Install Docker-ce on Oracle Linux 8:
+
+1.) Do minimal install from the iso
+
+2.) Once install is complete, then run the following commands:
+$ dnf -y groupinstall "gnome-desktop"
+$ dnf -y update
+{reboot workstation}
+3.) Run the following commands:
+$ dnf -y install yum-utils
+$ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+$ sudo dnf repolist
+$ sudo dnf -y install docker-ce 
+$ sudo dnf -y install docker-ce-cli 
+$ sudo dnf -y install containerd.io
+$ Sudo systemctl enable docker
+$ sudo systemctl start docker
+$ sudo usermod -aG docker $USER
+$ newgrp docker
+
+4.) Test docker installation:
+$ docker pull hello-world
+$ docker run --rm --name hello-world docker.io/library/hello-world:latest
+
+Expected result:
+Hello from Docker!
+This message shows that your installation appears to be working correctly....
+
+5.) Install docker-compose by running the following commands:
+$ sudo dnf -y install curl
+$ sudo dnf -y install wget
+$ sudo curl -s https://api.github.com/repos/docker/compose/releases/latest|grep browser_download_url| grep docker-compose-linux-x86_64| cut -d '"' -f 4| wget -qi -
+$ sudo mv docker-compose-linux-x86_64 /usr/local/bin/docker-compose
+$ chmod +x /usr/local/bin/docker-compose
+
+6.) Test Docker-compose:
+$ docker-compose --version
+
+7.) Enable bash completion for Docker Compose command line tool:
+$ sudo curl -L https://raw.githubusercontent.com/docker/compose/master/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+$ source /etc/bash_completion.d/docker-compose
+
+8.) You are now ready to use Docker-ce and Docker Compose on OL8
